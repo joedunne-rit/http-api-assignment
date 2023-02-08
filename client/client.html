@@ -9,34 +9,17 @@
     const type = document.querySelector('#type');
     const sendBtn = document.querySelector('#send');
 
-    const sendRequest = () => {
-      switch (test.value){
-        case "/success":
-          break;
-        case "/badRequest":
-          break;
-        case "/unauthorized":
-          break;
-        case "/forbidden":
-          break;
-        case "/internal":
-          break;
-        case "/notImplemented":
-          break;
-        case "/notFound":
-          break;
-        default:
-          break;
-      }
+    const sendRequest = async () => {
+      const url = test.value;
+      const responseType = type.value;
 
-      switch (type.value){
-        case "application/json":
-          break;
-        case "text/xml":
-          break;
-        default:
-          break;
-      }
+      let response = await fetch(url, {
+        headers: {
+          'Accept': responseType
+        },
+      });
+
+      //Code to handle response
     }
   </script>
 </head>

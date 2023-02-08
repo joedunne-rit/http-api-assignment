@@ -9,8 +9,11 @@ const getIndex = (request, response) => {
   response.end();
 };
 
-const getCss = () => {
-
+const getCss = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/css' });
+  response.write(style);
+  response.end();
 };
 
 module.exports.getIndex = getIndex;
+module.exports.getCss = getCss;
