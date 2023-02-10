@@ -29,16 +29,25 @@
         },
       });
 
-      console.log(response.text);
-
       switch(response.status){
         case 200:
-          content.innerHTML = `<b>Success</b>`;
+          content.innerHTML = `<h1>Success</h1>`;
           break;
         default:
-          content.innerHTML =  `<b>Resource not found</b>`;
+          content.innerHTML =  `<h1>Resource not found</h1>`;
           break;
       }
+
+      let object;
+      if (type.value == 'application/json') {
+        object = await response.json();
+        content.innerHTML += `<h4>${object.message}</h4>`;
+      } else { 
+        object = await response.text();
+        content.innerHTML += `<h4>${object}</h4`;
+      }
+      
+      
     }
 
     window.onload = init;

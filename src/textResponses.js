@@ -1,6 +1,5 @@
 const getResponse = (request, response, status, object, type) => {
   response.writeHead(status, { 'Content-Type': type });
-  console.log(object);
   response.write(object);
   response.end();
 };

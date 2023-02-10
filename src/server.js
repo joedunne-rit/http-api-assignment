@@ -23,7 +23,7 @@ const urlStruct = {
 const onRequest = (request, response) => {
   const parsedUrl = url.parse(request.url);
 
-  //split accept headers here, makes it easier to manage if there's more than one
+  // split accept headers here, makes it easier to manage if there's more than one
   if (!urlStruct[request.method]) {
     return textHandler.notFound;
   }
