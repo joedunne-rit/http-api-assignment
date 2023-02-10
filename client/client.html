@@ -8,8 +8,10 @@
     const test = document.querySelector('#page');
     const type = document.querySelector('#type');
     const sendBtn = document.querySelector('#send');
+    const content = document.querySelector('#content');
 
     const sendRequest = async () => {
+      console.log("sending request");
       const url = test.value;
       const responseType = type.value;
 
@@ -19,8 +21,19 @@
         },
       });
 
-      //Code to handle response
+      console.log(response.text);
+
+      switch(response.status){
+        case 200:
+          content.innerHTML = `<b>Success</b>`;
+          break;
+        default:
+          content.innerHTML =  `<b>Resource not found</b>`;
+          break;
+      }
     }
+
+    sendBtn.addEventListener("click", sendRequest);
   </script>
 </head>
 <body>
