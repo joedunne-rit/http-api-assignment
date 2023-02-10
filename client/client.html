@@ -5,10 +5,18 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script>
-    const test = document.querySelector('#page');
-    const type = document.querySelector('#type');
-    const sendBtn = document.querySelector('#send');
-    const content = document.querySelector('#content');
+    let test;
+    let type;
+    let sendBtn;
+    let content;
+
+    const init = () => {
+      test = document.querySelector('#page');
+      type = document.querySelector('#type');
+      sendBtn = document.querySelector('#send');
+      content = document.querySelector('#content');
+      sendBtn.addEventListener("click", sendRequest);
+    }
 
     const sendRequest = async () => {
       console.log("sending request");
@@ -17,7 +25,7 @@
 
       let response = await fetch(url, {
         headers: {
-          'Accept': responseType
+          'accept': responseType
         },
       });
 
@@ -33,7 +41,7 @@
       }
     }
 
-    sendBtn.addEventListener("click", sendRequest);
+    window.onload = init;
   </script>
 </head>
 <body>

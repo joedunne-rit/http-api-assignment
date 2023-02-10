@@ -1,5 +1,6 @@
-const getResponse = (request, response, status, object) => {
-  response.writeHead(status, { 'Content-Type': request.Accept });
+const getResponse = (request, response, status, object, type) => {
+  response.writeHead(status, { 'Content-Type': type });
+  console.log(object);
   response.write(object);
   response.end();
 };
@@ -7,14 +8,14 @@ const getResponse = (request, response, status, object) => {
 const generateResponse = (type, messageString) => {
   let object;
   if (type === 'application/json') {
-    object = { message: messageString };
+    object = JSON.stringify({ 'message': messageString });
   } else { object = `<response><message>${messageString}</message></response>`; }
   return object;
 };
 
 const success = (request, response) => {
-  const object = generateResponse(request.Accept, 'This is a successful response');
-  getResponse(request, response, 200, object);
+  const object = generateResponse(request.headers.accept, 'This is a successful response');
+  getResponse(request, response, 200, object, request.headers.accept);
 };
 
 const badRequest = (request, response) => {
@@ -38,7 +39,8 @@ const notImplemented = (request, response) => {
 };
 
 const notFound = (request, response) => {
-
+  const object = generateResponse(request.headers.accept, 'The page you were looking for was not found');
+  getResponse(request, response, 404, object, request.headers.accept);
 };
 
 module.exports.success = success;
