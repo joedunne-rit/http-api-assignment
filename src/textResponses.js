@@ -7,8 +7,17 @@ const getResponse = (request, response, status, object, type) => {
 const generateResponse = (type, messageString) => {
   let object;
   if (type === 'application/json') {
-    object = JSON.stringify({ 'message': messageString });
-  } else { object = `<response><message>${messageString}</message></response>`; }
+    const jsonText = { message: messageString };
+    // Add code for adding extra stuff
+    object = JSON.stringify(jsonText);
+  } else if (type === 'text/xml') {
+    object = `<response><message>${messageString}</message></response>`;
+    // if statement
+  } else {
+    const jsonText = { message: messageString };
+    // Add code for adding extra stuff
+    object = JSON.stringify(jsonText);
+  }
   return object;
 };
 
@@ -18,23 +27,28 @@ const success = (request, response) => {
 };
 
 const badRequest = (request, response) => {
-
+  const object = generateResponse(request.headers.accept, 'Missing valid query parameter set to true');
+  getResponse(request, response, 400, object, request.headers.accept);
 };
 
 const unauthorized = (request, response) => {
-
+  const object = generateResponse(request.headers.accept, 'Missing loggedIn query parameter set to yes');
+  getResponse(request, response, 401, object, request.headers.accept);
 };
 
 const forbidden = (request, response) => {
-
+  const object = generateResponse(request.headers.accept, 'You do not have access to this content');
+  getResponse(request, response, 403, object, request.headers.accept);
 };
 
 const internal = (request, response) => {
-
+  const object = generateResponse(request.headers.accept, 'Internal sever error. Something went wrong.');
+  getResponse(request, response, 500, object, request.headers.accept);
 };
 
 const notImplemented = (request, response) => {
-
+  const object = generateResponse(request.headers.accept, 'A get request for this page has not been implemented yet. Check again later.');
+  getResponse(request, response, 501, object, request.headers.accept);
 };
 
 const notFound = (request, response) => {

@@ -23,16 +23,19 @@ const urlStruct = {
 const onRequest = (request, response) => {
   const parsedUrl = url.parse(request.url);
 
-  // split accept headers here, makes it easier to manage if there's more than one
+  let dataTypes = text.split(",", request.headers.accept);
+  if (!dataTypes[0])
+  {
+    dataTypes[0] = 'application/json';
+  }
   if (!urlStruct[request.method]) {
     return textHandler.notFound;
   }
 
   if (urlStruct[request.method][parsedUrl.pathname]) {
-    urlStruct[request.method][parsedUrl.pathname](request, response);
-  } else {
-    textHandler.notFound;
+    return urlStruct[request.method][parsedUrl.pathname](request, response);
   }
+  return textHandler.notFound;
 };
 
 http.createServer(onRequest).listen(port, () => {

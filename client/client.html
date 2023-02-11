@@ -33,6 +33,21 @@
         case 200:
           content.innerHTML = `<h1>Success</h1>`;
           break;
+        case 400:
+          content.innerHTML = `<h1>Bad Request</h1>`;
+          break;
+        case 401:
+          content.innerHTML = `<h1>Unauthorized</h1>`;
+          break;
+        case 403:
+          content.innerHTML = `<h1>Forbidden</h1>`;
+          break;
+        case 500:
+          content.innerHTML = `<h1>Interal server error</h1>`;
+          break;
+        case 501:
+          content.innerHTML = `<h1>Not implemented</h1>`;
+          break;
         default:
           content.innerHTML =  `<h1>Resource not found</h1>`;
           break;
@@ -42,9 +57,12 @@
       if (type.value == 'application/json') {
         object = await response.json();
         content.innerHTML += `<h4>${object.message}</h4>`;
-      } else { 
+      } else if (type.value == 'text/xml') { 
         object = await response.text();
         content.innerHTML += `<h4>${object}</h4`;
+      } else {
+        object = await response.json();
+        content.innerHTML += `<h4>${object.message}</h4>`;
       }
       
       
