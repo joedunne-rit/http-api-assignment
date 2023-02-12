@@ -21,21 +21,20 @@ const urlStruct = {
 };
 
 const onRequest = (request, response) => {
-  const parsedUrl = url.parse(request.url);
+  const parseUrl = url.parse(request.url);
 
-  let dataTypes = text.split(",", request.headers.accept);
-  if (!dataTypes[0])
-  {
+  const dataTypes = request.headers.accept.split(',');
+  if (!dataTypes[0]) {
     dataTypes[0] = 'application/json';
   }
   if (!urlStruct[request.method]) {
-    return textHandler.notFound;
+    return urlStruct[request.method]['/notFound'](request, response, dataTypes[0], parseUrl);
   }
 
-  if (urlStruct[request.method][parsedUrl.pathname]) {
-    return urlStruct[request.method][parsedUrl.pathname](request, response);
+  if (urlStruct[request.method][parseUrl.pathname]) {
+    return urlStruct[request.method][parseUrl.pathname](request, response, dataTypes[0], parseUrl);
   }
-  return textHandler.notFound;
+  return urlStruct[request.method]['/notFound'](request, response, dataTypes[0], parseUrl);
 };
 
 http.createServer(onRequest).listen(port, () => {
